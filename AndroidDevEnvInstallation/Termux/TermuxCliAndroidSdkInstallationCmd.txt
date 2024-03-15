@@ -1,0 +1,34 @@
+### cli android sdk installation in termux env
+
+cd ~
+pkg update
+pkg upgrade
+pkg install x11-repo
+pkg install wget
+pkg install unzip
+pkg install kotlin
+pkg install gradle
+pkg install git
+pkg install aapt2
+pkg install openjdk-17
+wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+mkdir AndroidSdk
+mkdir latest
+unzip commandlinetools-linux-11076708_latest.zip -d AndroidSdk/
+ls AndroidSdk/cmdline-tools
+mv AndroidSdk/cmdline-tools/* latest/
+mv latest AndroidSdk/cmdline-tools/
+ls AndroidSdk/cmdline-tools/latest/bin
+export ANDROID_HOME=$(pwd)/AndroidSdk
+ls $ANDROID_HOME
+export PATH=$PATH:$(pwd)/AndroidSdk/cmdline-tools/latest/bin:$(pwd)/AndroidSdk/platform-tools
+!sdkmanager
+!sdkmanager --update
+!sdkmanager --list
+!yes | sdkmanager --licenses
+!yes | sdkmanager --licenses
+!sdkmanager "platform-tools" "platforms;android-34"
+!sdkmanager "build-tools;34.0.0"
+
+### generating bundle .aab file pkg
+!bash gradlew bundleRelease
