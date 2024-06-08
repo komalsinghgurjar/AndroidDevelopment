@@ -6,11 +6,12 @@ pkg upgrade
 pkg install x11-repo
 pkg install wget
 pkg install unzip
+pkg install openjdk-17
 pkg install kotlin
 pkg install gradle
 pkg install git
+pkg install apksigner
 pkg install aapt2
-pkg install openjdk-17
 wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
 mkdir AndroidSdk
 mkdir latest
@@ -20,15 +21,39 @@ mv AndroidSdk/cmdline-tools/* latest/
 mv latest AndroidSdk/cmdline-tools/
 ls AndroidSdk/cmdline-tools/latest/bin
 export ANDROID_HOME=$(pwd)/AndroidSdk
+export JAVA_HOME=/data/data/com.termux/files/usr/lib/jvm/java-17-openjdk
 ls $ANDROID_HOME
 export PATH=$PATH:$(pwd)/AndroidSdk/cmdline-tools/latest/bin:$(pwd)/AndroidSdk/platform-tools
-!sdkmanager
-!sdkmanager --update
-!sdkmanager --list
-!yes | sdkmanager --licenses
-!yes | sdkmanager --licenses
-!sdkmanager "platform-tools" "platforms;android-34"
-!sdkmanager "build-tools;34.0.0"
+sdkmanager
+sdkmanager --update
+sdkmanager --list
+yes | sdkmanager --licenses
+yes | sdkmanager --licenses
+sdkmanager "platform-tools" "platforms;android-34"
+sdkmanager "build-tools;34.0.0"
+rm -rf commandlinetools-linux*
+termux-setup-storage
 
-### generating bundle .aab file pkg
-!bash gradlew bundleRelease
+
+# create local.properties file in project module of your project and add below line:
+sdk.dir=/data/data/com.termux/files/home/AndroidSdk
+
+# add below line in gradle.properties file of your app project module
+android.aapt2FromMavenOverride=/data/data/com.termux/files/usr/bin/aapt2
+
+
+
+
+### generate unsigned bundle .aab fike
+bash gradlew bundleRelease
+
+### generate signed debug apk .apk
+ bash gradlew assembleDebug
+
+### generate unsigned release .apk
+bash gradlew assembleRelease
+
+### For signing unsigned apk file
+apksigner sign --ks your_release_key.jks your_app.apk
+OR
+apksigner sign --ks your_release_key.keystore your_app.apk

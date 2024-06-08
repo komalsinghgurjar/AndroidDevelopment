@@ -54,6 +54,7 @@ class MainActivity : ComponentActivity() {
 
  // Admob properties //
  private val isMobileAdsInitializeCalled = AtomicBoolean(false)
+private var showAdmobAds = AtomicBoolean(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,10 +63,9 @@ class MainActivity : ComponentActivity() {
             DemoAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Greeting("Android")
-                   // AdmobFixedBannerAd("ca-app-pub-3940256099942544/9214589741")
-                   AdmobAdaptiveBannerAd("ca-app-pub-3940256099942544/6300978111")
-                   AdmobAdaptiveBannerAd("ca-app-pub-3940256099942544/9214589741")
+                    //Greeting("Android")
+                   // AdmobFixedBannerAd("ca-app-pub-3940256099942544/9214589741", showAdmobAds)
+                   AdmobAdaptiveBannerAd("ca-app-pub-3940256099942544/6300978111", showAdmobAds)
                 }
             }
         }
@@ -119,24 +119,17 @@ private fun includePrivacySetting() {
     return
 }
 
+
+// Admob methods //
 private fun initializeMobileAdsSdk() {
     if (isMobileAdsInitializeCalled.getAndSet(true)) {
       return
     }
-
-    // Initi Admob
-    initAdmob()
-}
-
-// Admob methods //
-private fun initAdmob() {
-    // Initialize the Mobile Ads SDK.
+     // Initialize the Mobile Ads SDK.
     MobileAds.initialize(this) {}
-    
     // TODO: Show ads after
+    showAdmobAds.set(true)
 }
-
-  
   
   
 // Testing, remove in production//
@@ -157,7 +150,12 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 
 // Admob Adaptive Banner Ad
 @Composable
-fun AdmobAdaptiveBannerAd(bannerAdUnitId: String, modifier: Modifier = Modifier) {
+fun AdmobAdaptiveBannerAd(
+bannerAdUnitId: String,
+showAd: Boolean = false,
+modifier: Modifier = Modifier
+) {
+	if (showAd) {
     AndroidView(
         modifier = modifier.fillMaxWidth(),
         factory = { context ->
@@ -179,13 +177,14 @@ fun AdmobAdaptiveBannerAd(bannerAdUnitId: String, modifier: Modifier = Modifier)
                 loadAd(AdRequest.Builder().build())
             }
         }
-    )
+    )}
 }
 
 // Admob Fixed Banner Ad
 //@Composable
-//fun AdmobFixedBannerAd(bannerAdUnitId: String, modifier: Modifier = Modifier) {
-//    AndroidView(
+//fun AdmobFixedBannerAd(bannerAdUnitId: String, showAd: Boolean = false, modifier: Modifier = Modifier) {
+//   if (showAd) {
+// AndroidView(
 //        modifier = modifier,
 //        factory = { context ->
 //            AdView(context).apply {
@@ -194,7 +193,7 @@ fun AdmobAdaptiveBannerAd(bannerAdUnitId: String, modifier: Modifier = Modifier)
 //                loadAd(AdRequest.Builder().build())
 //            }
 //        }
-//    )
+//    )}
 //}
 
 
