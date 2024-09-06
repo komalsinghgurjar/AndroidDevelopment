@@ -1,17 +1,6 @@
 ### cli android sdk installation in termux env
 
 cd ~
-pkg update
-pkg upgrade
-pkg install x11-repo
-pkg install wget
-pkg install unzip
-pkg install openjdk-17
-pkg install kotlin
-pkg install gradle
-pkg install git
-pkg install apksigner
-pkg install aapt2
 wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
 mkdir AndroidSdk
 mkdir latest
