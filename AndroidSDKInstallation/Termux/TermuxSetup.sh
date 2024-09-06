@@ -1,1 +1,0 @@
-termux-setup-storage
