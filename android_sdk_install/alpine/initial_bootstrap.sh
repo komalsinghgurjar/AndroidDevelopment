@@ -1,6 +1,6 @@
 #!/bin/ash
-yes | apk update -y
-yes | apk upgrade -y
+yes | apk update
+yes | apk upgrade
 
 
 # Source the install_packages.sh script to use its functions

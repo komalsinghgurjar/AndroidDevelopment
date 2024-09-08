@@ -7,7 +7,7 @@ install_and_verify_package() {
     local max_attempts=4
 
     while [ $attempts -lt $max_attempts ]; do
-        apk add "$package"
+        yes | apk add "$package"
         if apk info "$package" >/dev/null 2>&1; then
             echo "* $package installed successfully."
             return 0
@@ -15,8 +15,8 @@ install_and_verify_package() {
             echo "* Failed to install $package. Retrying... ($((attempts + 1))/$max_attempts)"
             if [ $attempts -eq $((max_attempts - 1)) ]; then
                 echo "* Executing additional steps on final attempt."
-                apk update
-                apk upgrade
+                yes | apk update
+                yes | apk upgrade
             fi
             attempts=$((attempts + 1))
         fi
