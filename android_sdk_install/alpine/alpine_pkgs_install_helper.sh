@@ -28,7 +28,7 @@ install_and_verify_package() {
 
 # Function to install a list of packages passed as arguments
 install() {
-    local packages=("$@")
+    packages=("$@")
     echo "* Packages to be installed:"
     for pkg in "${packages[@]}"; do
         echo "* - $pkg"
