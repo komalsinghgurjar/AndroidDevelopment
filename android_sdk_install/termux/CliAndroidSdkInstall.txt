@@ -9,8 +9,9 @@ yes | apt install kotlin -y
 yes | apt install gradle -y
 yes | apt install aapt2
 termux-setup-storage
-
 cd ~
+# To remove previously installed Android Sdk
+rm -rf AndroidSdk
 wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
 mkdir AndroidSdk
 mkdir latest
@@ -32,25 +33,25 @@ rm -rf commandlinetools-linux*
 
 
 
+
+# move to project root dir
+
 # create local.properties file in project module of your project and add below line:
-sdk.dir=/data/data/com.termux/files/home/AndroidSdk
+# sdk.dir=/data/data/com.termux/files/home/AndroidSdk
 
 # add below line in gradle.properties file of your app project module
-android.aapt2FromMavenOverride=/data/data/com.termux/files/usr/bin/aapt2
+#android.aapt2FromMavenOverride=/data/data/com.termux/files/usr/bin/aapt2
 
+# generate unsigned bundle .aab fike
+# bash gradlew bundleRelease
 
+# generate signed debug apk .apk
+# bash gradlew assembleDebug
 
+# generate unsigned release .apk
+# bash gradlew assembleRelease
 
-### generate unsigned bundle .aab fike
-bash gradlew bundleRelease
-
-### generate signed debug apk .apk
- bash gradlew assembleDebug
-
-### generate unsigned release .apk
-bash gradlew assembleRelease
-
-### For signing unsigned apk file
-apksigner sign --ks your_release_key.jks your_app.apk
-OR
-apksigner sign --ks your_release_key.keystore your_app.apk
+# For signing unsigned apk file
+# apksigner sign --ks your_release_key.jks your_app.apk
+# OR
+# apksigner sign --ks your_release_key.keystore your_app.apk
