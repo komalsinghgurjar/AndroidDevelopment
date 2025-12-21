@@ -1,0 +1,65 @@
+## Installing CLI Android SDK in Termux
+termux-setup-storage
+pkg update -y
+pkg upgrade -y
+apt update -y
+apt upgrade -y
+apt install wget -y
+# You can also use java-17 using pkg name openjdk-17 instead of openjdk-21
+apt install openjdk-17 -y
+apt install kotlin -y
+apt install gradle -y
+apt install aapt2 -y
+apt install unzip -y
+rm -rf $HOME/AndroidSdk
+rm -rf commandlinetools-linux*.zip
+# You can always find latest version link by visiting android linux cmdline tools download page and long pressing the download button!
+#https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip
+wget -P "$HOME" "https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip"
+mkdir $HOME/AndroidSdk
+mkdir $HOME/latest
+unzip $HOME/commandlinetools-linux*.zip -d $HOME/AndroidSdk/
+mv $HOME/AndroidSdk/cmdline-tools/* $HOME/latest/
+mv $HOME/latest $HOME/AndroidSdk/cmdline-tools/
+# If you are using java-17 than use java-17-openjdk below inplace of java-21-openjdk!
+export JAVA_HOME=/data/data/com.termux/files/usr/lib/jvm/java-17-openjdk
+export ANDROID_HOME=$HOME/AndroidSdk
+export PATH=$HOME/AndroidSdk/cmdline-tools/latest/bin:$HOME/AndroidSdk/platform-tools:$PATH
+sdkmanager
+sdkmanager --update
+sdkmanager --list
+yes | sdkmanager --licenses
+yes | sdkmanager --licenses
+sdkmanager "platform-tools" "build-tools;35.0.1" "platforms;android-35"
+rm -rf commandlinetools-linux*
+## Now Android Sdk Is Installed!
+
+## Configuring Android Project For Termux
+# download latest android project template (android studio original)
+# unzip project
+# move to project root dir
+# create a local.properties file in root project module or use below command in root project module.
+touch local.properties
+# open local.properties file and add line sdk.dir=/data/data/com.termux/files/home/AndroidSdk
+# create another file gradle.properties if not found in root project module or use below command in root project module.
+touch gradle.properties
+# add this line if not present in gradle.properties file android.aapt2FromMavenOverride=/data/data/com.termux/files/usr/bin/aapt2
+# if aapt2 android jar err use /data/data/com.termux/files/home/aapt2 and custom aapt2 file
+## Android Project Successfully Configured
+
+## Building Apk Aab and Compiling of Project
+# run below commands in root project module
+chmod +x gradlew
+# generate unsigned bundle .aab file
+./gradlew bundleRelease
+
+# generate signed debug apk .apk 
+./gradlew assembleDebug
+
+# generate unsigned release .apk
+./gradlew assembleRelease 
+
+# For signing unsigned apk file
+apksigner sign --ks your_release_key.jks your_app.apk
+# OR
+apksigner sign --ks your_release_key.keystore your_app.apk

@@ -1,0 +1,1 @@
+grep -rl 'gurjar.singh.komal' | xargs sed -i 's/gurjar.singh.komal/gurjar.singh.komal.flashlight/g'
