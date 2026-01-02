@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# invoke from the root of project dir
+
 set -euo pipefail
 
 echo "======================================"
