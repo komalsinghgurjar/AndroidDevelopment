@@ -4,22 +4,23 @@
 yes | apt update -y
 yes | apt upgrade -y
 yes | apt install wget -y
-yes | apt install openjdk-17 -y
+yes | apt install openjdk-21 -y
 yes | apt install kotlin -y
-yes | apt install gradle -y
-yes | apt install aapt2
+#yes | apt install gradle -y
+#yes | apt install aapt2
 termux-setup-storage
 cd ~
 # To remove previously installed Android Sdk
 rm -rf AndroidSdk
-wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+wget https://dl.google.com/android/repository/commandlinetools-linux-14742923_latest.zip
 mkdir AndroidSdk
 mkdir latest
-unzip commandlinetools-linux-11076708_latest.zip -d AndroidSdk/
+unzip commandlinetools-linux-14742923_latest.zip -d AndroidSdk/
 mv AndroidSdk/cmdline-tools/* latest/
 mv latest AndroidSdk/cmdline-tools/
 cd ~ && export ANDROID_HOME=$(pwd)/AndroidSdk
-cd ~ && export JAVA_HOME=/data/data/com.termux/files/usr/lib/jvm/java-17-openjdk
+cd ~ && export JAVA_HOME=/data/data/com.termux/files/usr/lib/jvm/java-21-openjdk
+#cd ~ && export JAVA_HOME=/data/data/com.termux/files/usr/lib/jvm/java-17-openjdk
 ls $ANDROID_HOME
 cd ~ && export PATH=$PATH:$(pwd)/AndroidSdk/cmdline-tools/latest/bin:$(pwd)/AndroidSdk/platform-tools
 sdkmanager
@@ -27,8 +28,8 @@ sdkmanager --update
 sdkmanager --list
 yes | sdkmanager --licenses
 yes | sdkmanager --licenses
-sdkmanager "platform-tools" "platforms;android-34"
-sdkmanager "build-tools;34.0.0"
+sdkmanager "platform-tools" "platforms;android-36"
+sdkmanager "build-tools;36.0.0"
 rm -rf commandlinetools-linux*
 
 
