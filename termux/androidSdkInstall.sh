@@ -43,7 +43,8 @@ rm -rf commandlinetools-linux*
 # sdk.dir=/data/data/com.termux/files/home/AndroidSdk
 
 # add below line in gradle.properties file of your app project module
-#android.aapt2FromMavenOverride=/data/data/com.termux/files/usr/bin/aapt2
+#android.aapt2FromMavenOverride=/data/data/com.termux/files/home/aapt2
+###android.aapt2FromMavenOverride=/data/data/com.termux/files/usr/bin/aapt2
 
 # generate unsigned bundle .aab fike
 # bash gradlew bundleRelease
