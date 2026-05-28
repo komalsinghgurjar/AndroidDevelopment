@@ -1,4 +1,6 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/bin/sh
+
+## Run via source script.sh OR . script.sh
 
 ### cli android sdk installation in termux env
 yes | apt update -y
