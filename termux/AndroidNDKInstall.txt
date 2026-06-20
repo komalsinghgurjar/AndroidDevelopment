@@ -1,0 +1,81 @@
+# Install basic packages
+pkg update
+pkg upgrade
+
+pkg install openjdk-21
+pkg install git
+pkg install wget
+pkg install curl
+pkg install unzip
+pkg install p7zip
+pkg install cmake
+pkg install ninja
+pkg install file
+
+# Install Android SDK
+# (Follow your saved Android SDK installation notes)
+
+# Download ARM64 NDK for Termux
+cd ~
+
+wget <LIHZYONG_NDK_URL>
+
+# Extract NDK
+7z x android-ndk-r29-aarch64.7z
+
+# Delete archive
+rm android-ndk-r29-aarch64.7z
+
+# Verify NDK
+ls ~/android-ndk-r29
+
+# Run project assemble debug command and sdkmanager will download cmake and cretes the dir structure with version 
+
+
+
+# Verify SDK CMake architecture
+file ~/AndroidSdk/cmake/3.22.1/bin/cmake
+
+# probably architecture is not going to match so verify and replace or syslink with termux own bins
+
+# Replace SDK CMake with Termux ARM64 CMake
+mv ~/AndroidSdk/cmake/3.22.1/bin/cmake \
+   ~/AndroidSdk/cmake/3.22.1/bin/cmake.bak
+
+ln -s /data/data/com.termux/files/usr/bin/cmake \
+      ~/AndroidSdk/cmake/3.22.1/bin/cmake
+
+# Verify
+file ~/AndroidSdk/cmake/3.22.1/bin/cmake
+
+# Verify SDK Ninja architecture
+file ~/AndroidSdk/cmake/3.22.1/bin/ninja
+
+# Replace SDK Ninja with Termux ARM64 Ninja
+mv ~/AndroidSdk/cmake/3.22.1/bin/ninja \
+   ~/AndroidSdk/cmake/3.22.1/bin/ninja.bak
+
+ln -s /data/data/com.termux/files/usr/bin/ninja \
+      ~/AndroidSdk/cmake/3.22.1/bin/ninja
+
+# Verify
+file ~/AndroidSdk/cmake/3.22.1/bin/ninja
+
+# Create local.properties
+cat > local.properties <<EOF
+sdk.dir=/data/data/com.termux/files/home/AndroidSdk
+ndk.dir=/data/data/com.termux/files/home/android-ndk-r29
+cmake.dir=/data/data/com.termux/files/home/AndroidSdk/cmake/3.22.1
+EOF
+
+# Verify tools
+java -version
+cmake --version
+ninja --version
+
+# Clean Gradle
+./gradlew --stop
+./gradlew clean
+
+# Build app
+./gradlew assembleDebug
