@@ -79,3 +79,10 @@ ninja --version
 
 # Build app
 ./gradlew assembleDebug
+
+
+
+# local properties structure 
+sdk.dir=/data/data/com.termux/files/home/AndroidSdk
+ndk.dir=/data/data/com.termux/files/home/android-ndk-r29
+cmake.dir=/data/data/com.termux/files/home/AndroidSdk/cmake/3.22.1
